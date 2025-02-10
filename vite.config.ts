@@ -7,7 +7,10 @@ export default defineConfig({
   plugins: [vue(), basicSsl()],
   server: {
     host: true, // Expose to all network interfaces
-    https: true,
+    https: {
+      key: undefined,
+      cert: undefined,
+    },
   },
   base: process.env.NODE_ENV === 'production' ? '/web-nfc-read-demo/' : '/', // Add base URL for GitHub Pages
 })

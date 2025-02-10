@@ -41,7 +41,7 @@ class NFCServiceImpl implements NFCService {
       this.reader = new NDEFReader();
       await this.reader.scan();
       
-      this.reader.addEventListener('reading', this.handleReading);
+      this.reader.addEventListener('reading', this.handleReading as EventListener);
       this.reader.addEventListener('readingerror', this.handleReadingError);
     } catch (error) {
       console.error('Error starting NFC scan:', error);
@@ -51,7 +51,7 @@ class NFCServiceImpl implements NFCService {
 
   stopScanning(): void {
     if (this.reader) {
-      this.reader.removeEventListener('reading', this.handleReading);
+      this.reader.removeEventListener('reading', this.handleReading as EventListener);
       this.reader.removeEventListener('readingerror', this.handleReadingError);
       this.reader = null;
     }
@@ -61,9 +61,10 @@ class NFCServiceImpl implements NFCService {
     this.tagReadCallback = callback;
   }
 
-  private handleReading({ message, serialNumber }: NDEFReadingEvent): void {
+  private handleReading(event: NDEFReadingEvent): void {
     if (!this.tagReadCallback) return;
 
+    const { message, serialNumber } = event;
     const records = message.records;
     const content = records.map(record => {
       try {
