@@ -9,4 +9,5 @@ export default defineConfig({
     host: true, // Expose to all network interfaces
     https: true,
   },
+  base: process.env.NODE_ENV === 'production' ? '/web-nfc-read-demo/' : '/', // Add base URL for GitHub Pages
 })
